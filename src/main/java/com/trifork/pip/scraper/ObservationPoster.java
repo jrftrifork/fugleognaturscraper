@@ -35,7 +35,6 @@ public class ObservationPoster {
             username.setValueAttribute("jakobfaerch");
             password.setValueAttribute("46n12b");
 
-
             HtmlPage afterLogin = submitBtn.click();
 
             FileUtils.writeStringToFile(new File("/Users/jakob/tmp/afterlogin.html"), afterLogin.asXml());
@@ -48,9 +47,9 @@ public class ObservationPoster {
 
     public void postObservation() {
         try {
+            webClient.setJavaScriptEnabled(false);
             final HtmlPage page;
             page = webClient.getPage(POST_OBSERVATION_URL);
-            webClient.waitForBackgroundJavaScript(10000);
 
             FileUtils.writeStringToFile(new File("/Users/jakob/tmp/observationpage.html"), page.asXml());
         } catch (IOException e) {
