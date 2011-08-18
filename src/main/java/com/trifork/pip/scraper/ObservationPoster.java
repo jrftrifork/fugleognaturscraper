@@ -50,6 +50,7 @@ public class ObservationPoster {
         try {
             final HtmlPage page;
             page = webClient.getPage(POST_OBSERVATION_URL);
+            webClient.waitForBackgroundJavaScript(10000);
 
             FileUtils.writeStringToFile(new File("/Users/jakob/tmp/observationpage.html"), page.asXml());
         } catch (IOException e) {

@@ -20,7 +20,7 @@ birdwatch.Viewport = Ext.extend(Ext.Panel, {
             dockedItems: [
                 {
                     dock : 'left',
-                    xtype: 'expeditionInformation',
+                    xtype: 'expeditionView',
                     width: 250
                 }
             ]
