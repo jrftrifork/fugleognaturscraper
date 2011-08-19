@@ -1,7 +1,6 @@
 package com.trifork.pip.scraper;
 
 import com.gargoylesoftware.htmlunit.IncorrectnessListener;
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.ScriptException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
@@ -60,7 +59,7 @@ public class ObservationPoster {
         try {
             HtmlPage loginPage = webClient.getPage(LOGIN_URL);
 
-            FileUtils.writeStringToFile(new File("/Users/jakob/tmp/beforelogin.html"), loginPage.asXml());
+            debugWrite(loginPage, "beforelogin.html");
 
             HtmlForm loginForm = loginPage.getFormByName("frmLogin2");
             HtmlInput username = loginForm.getInputByName("box1");
@@ -72,12 +71,21 @@ public class ObservationPoster {
 
             HtmlPage afterLogin = submitBtn.click();
 
-            FileUtils.writeStringToFile(new File("/Users/jakob/tmp/afterlogin.html"), afterLogin.asXml());
+
+
+            debugWrite(afterLogin, "afterLogin.html");
 
             webClient.closeAllWindows();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void debugWrite(HtmlPage afterLogin, String fileName) throws IOException {
+        String tempDir = System.getProperty("java.io.tmpDir");
+        File file = new File(tempDir, fileName);
+        System.out.println("FILE: " + file.getCanonicalPath());
+        FileUtils.writeStringToFile(file, afterLogin.asXml());
     }
 
     public void postObservation(Expedition expedition) {
@@ -87,8 +95,6 @@ public class ObservationPoster {
             page = webClient.getPage(POST_OBSERVATION_URL);
 
             HtmlForm form = page.getFormByName("aspnetForm");
-
-            FileUtils.writeStringToFile(new File("/Users/jakob/tmp/observationpage.html"), page.asXml());
 
             form.getInputByName("ctl00$ContentPlaceHolder1$ArtID01").setValueAttribute("529");
             form.getInputByName("ctl00$ContentPlaceHolder1$antal01").setValueAttribute("113");
@@ -104,7 +110,7 @@ public class ObservationPoster {
             HtmlSubmitInput submitBtn = form.getInputByName("ctl00$ContentPlaceHolder1$SendButton");
             HtmlPage confirmPage = submitBtn.click();
 
-            FileUtils.writeStringToFile(new File("/Users/jakob/tmp/confirmpage.html"), confirmPage.asXml());
+            debugWrite(confirmPage, "confirmpage.html");
 
             System.out.println("********* Efter post");
         } catch (IOException e) {
