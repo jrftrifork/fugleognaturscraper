@@ -37,10 +37,29 @@ var app = new Ext.Application({
                         // Update the note with the values in the form fields.
                         expeditionEditor.updateRecord(expedition);
 
+                        var now = new Date();
+                        var id = now.getTime();
+
+                        var expeditionToSave = Ext.ModelMgr.create(
+                          { id: id,
+                              observationdate: now,
+                              observationstart: now.getTime(),
+                              observationend: now.getTime(),
+                              reporter: user,
+                              isOwnObservation: true,
+                              location: 'todoLocation',
+                              species: 'Solsort'
+                          },
+                          'Expedition');
+                        alert(expeditionToSave.species);
+
+
+                        expeditionToSave.save();
                         Birdwatch.views.viewport.setActiveItem('confirmationView', { type: 'slide', direction: 'left' });
                     }
                 }
             ]
+
         });
 
         Birdwatch.views.confirmationView = new Ext.Panel({
