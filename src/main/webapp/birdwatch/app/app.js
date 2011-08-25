@@ -51,10 +51,10 @@ var app = new Ext.Application({
                               species: 'Solsort'
                           },
                           'Expedition');
-                        alert(expeditionToSave.species);
+                        //alert(expeditionToSave.species);
 
 
-                        expeditionToSave.save();
+                        //expeditionToSave.save();
                         Birdwatch.views.viewport.setActiveItem('confirmationView', { type: 'slide', direction: 'left' });
                     }
                 }
